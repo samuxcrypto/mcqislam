@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Islamic Jurisprudence, Ethics & Contemporary Life — Assessment</title>
+<style>
+  :root{
+    --bg:#0f1419;
+    --card:#1a2129;
+    --accent:#2e8b6e;
+    --accent2:#c9a14a;
+    --text:#e8e6e1;
+    --muted:#9aa5ab;
+    --correct:#2e8b6e;
+    --wrong:#b85c5c;
+    --border:#2a333c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Georgia', 'Times New Roman', serif;
+    background:linear-gradient(180deg,#0f1419,#161d24);
+    color:var(--text);
+    line-height:1.6;
+  }
+  header{
+    text-align:center;
+    padding:48px 20px 28px;
+    border-bottom:1px solid var(--border);
+    background:radial-gradient(ellipse at top, rgba(46,139,110,0.12), transparent 70%);
+  }
+  header h1{
+    font-size:1.9em;
+    margin:0 0 10px;
+    color:var(--accent2);
+    letter-spacing:0.5px;
+  }
+  header p{
+    color:var(--muted);
+    max-width:700px;
+    margin:0 auto;
+    font-size:0.98em;
+  }
+  .container{
+    max-width:840px;
+    margin:0 auto;
+    padding:30px 18px 80px;
+  }
+  .intro-box{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-left:4px solid var(--accent2);
+    border-radius:6px;
+    padding:18px 22px;
+    margin-bottom:34px;
+    color:#cfd6d2;
+    font-size:0.96em;
+  }
+  .progress-wrap{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(15,20,25,0.92);
+    backdrop-filter:blur(6px);
+    padding:12px 18px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-family:Arial, sans-serif;
+    font-size:0.85em;
+  }
+  .progress-bar{
+    flex:1;
+    height:8px;
+    background:#222b32;
+    border-radius:5px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    transition:width .3s ease;
+  }
+  #scoreText{ white-space:nowrap; color:var(--muted); }
+
+  .module{
+    margin-bottom:46px;
+  }
+  .module-header{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:6px;
+    border-bottom:2px solid var(--accent);
+    padding-bottom:8px;
+  }
+  .module-num{
+    font-family:Arial, sans-serif;
+    background:var(--accent);
+    color:#0f1419;
+    font-weight:bold;
+    border-radius:50%;
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.85em;
+    flex-shrink:0;
+  }
+  .module-title{
+    font-size:1.25em;
+    color:var(--accent2);
+    margin:0;
+  }
+  .module-blurb{
+    color:var(--muted);
+    font-size:0.92em;
+    margin:8px 0 22px;
+    font-style:italic;
+  }
+  .question{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:18px 20px;
+    margin-bottom:14px;
+  }
+  .q-text{
+    font-size:1.02em;
+    margin-bottom:12px;
+    color:var(--text);
+  }
+  .q-num{
+    color:var(--accent2);
+    font-weight:bold;
+    margin-right:6px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .option{
+    font-family:Arial, sans-serif;
+    font-size:0.93em;
+    text-align:left;
+    background:#222b32;
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:10px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .option:hover:not(:disabled){
+    border-color:var(--accent2);
+    background:#262f37;
+  }
+  .option:disabled{
+    cursor:default;
+  }
+  .option.correct{
+    background:rgba(46,139,110,0.22);
+    border-color:var(--correct);
+    color:#bfe9d8;
+  }
+  .option.wrong{
+    background:rgba(184,92,92,0.2);
+    border-color:var(--wrong);
+    color:#f0c9c9;
+  }
+  .feedback{
+    margin-top:10px;
+    font-family:Arial, sans-serif;
+    font-size:0.85em;
+    color:var(--muted);
+  }
+  footer{
+    text-align:center;
+    padding:30px 20px 50px;
+    color:var(--muted);
+    font-size:0.85em;
+    font-family:Arial, sans-serif;
+  }
+  .reset-btn{
+    font-family:Arial, sans-serif;
+    background:transparent;
+    border:1px solid var(--accent2);
+    color:var(--accent2);
+    padding:6px 14px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:0.85em;
+  }
+  .reset-btn:hover{ background:rgba(201,161,74,0.1); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Comprehensive Assessment</h1>
+  <p>Islamic Jurisprudence, Ethics, and Contemporary Life — Institute of Business Administration (IBA)</p>
+</header>
+
+<div class="progress-wrap">
+  <span id="scoreText">0 / 80 answered</span>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <button class="reset-btn" onclick="resetQuiz()">Reset</button>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    This assessment evaluates the integration of classical Islamic scholarship with modern professional life — across faith, contemporary fiqh, ethics, hadith methodology, science, social responsibility, political theory, and legal foundations. Tap an option to reveal whether it's correct.
+  </div>
+
+  <div id="quizRoot"></div>
+
+</div>
+
+<footer>
+  Built for personal study review. Answer key sourced from the original course assessment.
+</footer>
+
+<script>
+const modules = [
+{
+  title: "Module I: The Twelve Qualities of Faithful Slaves (Surah Furqan)",
+  blurb: "The Ibad-ur-Rahman framework — humility, emotional intelligence, and disciplined moderation as the believer's behavioral rubric.",
+  questions: [
+    {q:"Linguistically, the term 'Ibad (عباد), used in the phrase Ibad-ur-Rahman, is the plural of Abd, which specifically signifies:", o:["A temporary employee","A slave who is the property of his master","A contractual partner","A voluntary associate"], a:1},
+    {q:"According to the first characteristic of the faithful slaves, how do they \"walk on the earth\"?", o:["With speed and urgency to meet deadlines","With pride and visible authority","Humbly (Hawna)","With caution and fear of the public"], a:2},
+    {q:"When addressed by the Jahiloon (ignorant people), what is the specific response of the Servants of the Rahman?", o:["They engage in a strategic debate to prove their point","They reply peacefully (Salama)","They ignore the address completely","They seek immediate legal retribution"], a:1},
+    {q:"How do the faithful slaves spend their nights before their Lord?", o:["In deep rest for professional productivity","In detailed professional planning","Prostrating (Sujda) and standing (Qiyama)","In intellectual social gatherings"], a:2},
+    {q:"Regarding the fourth characteristic, how is the punishment of Jahannam described by those who pray for protection from it?", o:["A temporary setback in the afterlife","A minor inconvenience for the soul","Persisting affliction (Garama)","A purifying fire of short duration"], a:2},
+    {q:"The \"middle path\" in spending (the fifth characteristic) requires a Muslim to be neither:", o:["Generous nor charitable","Extravagant nor miserly","Wealthy nor poor","Calculative nor spontaneous"], a:1},
+    {q:"What is the \"Ninth Characteristic\" mentioned in the excerpts from Surah Furqan?", o:["Avoiding all secular social interactions","Not witnessing falsehood","Constant fasting for purification","Seeking high-ranking political power"], a:1},
+    {q:"When passing by \"absurd things\" (Laghw), the faithful slaves are characterized by:", o:["Stopping to criticize the act publicly","Joining in to understand the context","Passing by with dignity","Reporting the matter to the authorities immediately"], a:2},
+    {q:"The twelfth characteristic includes a prayer to be made an \"Imam\" (leader). Over whom is this leadership requested?", o:["The wealthy and influential elite","The God-fearing (Muttaqin)","The entire global community","The political and corporate hierarchy"], a:1},
+    {q:"What is the primary reason given in the text for these individuals being rewarded with \"the high place\" (Paradise)?", o:["Their accumulation of wealth and status","Because they observed patience (Sabr)","Their academic and professional achievements","Their family lineage and social standing"], a:1}
+  ]
+},
+{
+  title: "Module II: Contemporary Issues in Halal and Haram",
+  blurb: "Applying timeless principles — harm prevention, purity, and avoidance of uncertainty — to digital assets, biotechnology, and synthetic consumables.",
+  questions: [
+    {q:"In Islamic jurisprudence, what is the \"default\" status of all things (Al-Aṣl fī al-Ashya’) until a clear prohibition is established?", o:["Haram (Prohibited)","Makruh (Discouraged)","Halal (Permissible)","Wajib (Obligatory)"], a:2},
+    {q:"Many scholars accept Cryptocurrency as Māl (property) because it:", o:["Is backed by physical gold reserves","Can be owned, stored, and traded","Is issued and regulated by a central government","Has no inherent market volatility"], a:1},
+    {q:"The debate over whether Cryptocurrency is Thamaniyyah (Currency) centers on its:", o:["Decentralized digital nature","Widespread acceptance as a medium of exchange","High electrical energy consumption","Technical difficulty in mining"], a:1},
+    {q:"Which principle is cited by scholars who prohibit volatile cryptocurrencies due to \"excessive uncertainty\" or ambiguity in the contract?", o:["Riba","Gharar","Zakat","Ijtihad"], a:1},
+    {q:"According to the International Islamic Fiqh Academy (IIFA) Resolution No. 265, lab-grown (cultivated) meat is permissible only if the cells are sourced from:", o:["Any living animal, regardless of species","A halal animal that has been Islamically slaughtered","Synthetic materials created in a laboratory","A pig, provided the process is sterile"], a:1},
+    {q:"In the context of organ donation, scholars often apply the principle of \"the lesser of two harms,\" which allows:", o:["Selling organs for the financial benefit of the family","Saving a life to take precedence over the desecration of a body","Donating a vital organ that causes the donor's immediate death","Donating reproductive organs to third parties outside of marriage"], a:1},
+    {q:"What is the majority scholarly position on Vaping and E-cigarettes?", o:["Fully Halal and recommended","Haram, due to proven health risks and the principle of harm (darar)","Recommended as a permanent lifestyle alternative","Permissible only if the flavorings are fruit-based"], a:1},
+    {q:"Regarding CBD (Cannabidiol), what is the key factor for its medicinal permissibility?", o:["It must be consumed via smoking","It must contain high THC levels for maximum effect","It must have negligible THC content and no psychoactive effect","It must be used primarily for recreational relaxation"], a:2},
+    {q:"The concept of Istihalah refers to:", o:["The prohibition of all modern technological innovations","A complete chemical or physical transformation into an entirely new substance","The specific process of manual Islamic slaughter","The act of donating blood to save a life"], a:1},
+    {q:"Gelatin derived from a pork source is generally considered:", o:["Halal if boiled at high temperatures","Haram, as the pig is inherently impure and transformation may not purify it","Permissible in all pharmaceutical applications","Permissible if it is produced in a lab environment"], a:1}
+  ]
+},
+{
+  title: "Module III: Ethics and Morality in Islam",
+  blurb: "Distinguishing descriptive morality (what a society does) from normative morality (what rational beings ought to do under divine guidance).",
+  questions: [
+    {q:"Morality used \"normatively\" refers to a code of conduct that:", o:["Is accepted by a specific cultural group only","Changes every decade based on fashion and trends","Would be put forward by all rational persons given specified conditions","Is purely personal, subjective, and non-binding"], a:2},
+    {q:"According to Prophetic tradition, what is the \"heaviest thing\" to be placed in the balance of a believer on the Day of Judgment?", o:["Material wealth donated to charity","Good behavior (conduct)","Fasting every day of the year","Attaining high professional status"], a:1},
+    {q:"The Prophet (S.A.W.) stated that the combination of deeds most likely to lead a person to Paradise is:", o:["Extensive business success and profit","Taqwa (piety) and good conduct","International travel and exploration","Physical strength and athletic prowess"], a:1},
+    {q:"In the Islamic ethical system, \"Honesty\" is a \"blanket term\" that includes:", o:["Only telling the truth when it does not harm one's business","Objectivity in judgment, evaluation, and merit-based selection","Prioritizing family members regardless of their professional qualifications","Strictly following cultural norms even if they contradict the truth"], a:1},
+    {q:"Which of the following is a direct implication of honesty in a professional workplace?", o:["Selecting personnel based on personal social relations","Promoting staff based on favoritism and loyalty to the manager","Carrying out duties as fully as possible regardless of whether one is supervised","Adjusting facts in a report to meet the expectations of a supervisor"], a:2},
+    {q:"Regarding the treatment of animals, the Prophet (S.A.W.) commanded that when slaughtering an animal for food, one must:", o:["Perform the act as slowly as possible","Sharpen the knife to provide the animal with ease","Ignore the animal's pain as it is merely a resource","Use a blunt instrument to ensure the process is manual"], a:1},
+    {q:"What does the Qur’an (Surat Al-Mujadilah) teach regarding the etiquette of professional or social gatherings?", o:["Always ensure you sit at the most prominent position","Make room in assemblies when requested to do so","Speak as loudly as possible to ensure you are heard","Do not allow newcomers to join an established group"], a:1},
+    {q:"Islamic morality dictates that the \"best among you\" are those who:", o:["Have accumulated the most significant capital and assets","Are the best in conduct (and best to their families/wives)","Hold the highest political or administrative office","Are the most famous and widely recognized in society"], a:1},
+    {q:"The ultimate source of the Islamic ethical system is:", o:["The outcome of a popular democratic vote","Divine revelation from Allah","Current economic necessity and market trends","The philosophies of Ancient Greece and Rome"], a:1},
+    {q:"The Qur’anic instruction on walking found in Surat Luqman emphasizes:", o:["Walking rapidly and aggressively to show purpose","Being moderate in walking","Walking extremely slowly to show piety","Walking with a proud and tall stature to show confidence"], a:1}
+  ]
+},
+{
+  title: "Module IV: Understanding Hadīth — Sciences and Methodology",
+  blurb: "The dual system of Sanad (chain of narrators) and Matn (text) as a safeguard against misinformation in transmitting Prophetic tradition.",
+  questions: [
+    {q:"In evaluating a report about the Prophet's character, a scholar investigates the biographical reliability and memory of the transmitters. This scholar is focusing on the:", o:["Matn","Sanad","Ijtihad","Qiyas"], a:1},
+    {q:"A student encounters a Hadith where one narrator is known to have a slightly lesser degree of memory/precision but is otherwise upright and the chain is continuous. How would this Hadith be classified?", o:["Sahih","Hasan","Da’if","Maqtu’"], a:1},
+    {q:"A Sahih Hadith is classified as \"Sound\" because:", o:["It contains a very long and detailed narrative","Every narrator is of upright character with an exacting memory and the chain is continuous","It was discovered and recorded in the modern era","It is narrated by a single individual from a specific city"], a:1},
+    {q:"Which type of Hadith yields \"certain knowledge\" (ilm al-yaqin) because it is reported by such a large number of narrators that collusion to lie is rationally impossible?", o:["Ahad","Da’if","Mutawatir","Gharib"], a:2},
+    {q:"If a researcher finds a narration where the text (Matn) directly contradicts a clear, categorical verse of the Qur'an, what is the likely status of that Hadith?", o:["It is considered Sahih regardless of the text","It contains a defect and may be rejected as Da’if or fabricated","It overrides the Qur'an as it is a \"new\" report","It is accepted as a minority opinion for establishing creed"], a:1},
+    {q:"The \"Golden Age of Canonical Codification,\" which produced the \"Six Books\" (e.g., Sahih al-Bukhari), occurred during:", o:["The Prophetic Era (610–632 CE)","The 3rd Century AH (200–300 AH)","The Umayyad Era in Damascus","The modern digital era of the 21st century"], a:1},
+    {q:"A Marfu’ narration is one that is traced back directly to:", o:["A Companion (Sahabi)","A Successor (Tabi’i)","The Prophet Muhammad (S.A.W.)","A 10th-century jurist"], a:2},
+    {q:"The Matn of a Hadith refers specifically to its:", o:["Biographical dictionary of narrators","Actual content, words, or description of an action","Date of original publication and printing","Geographical route of transmission"], a:1},
+    {q:"The distinction between \"Sunnah\" and \"Hadith\" is that:", o:["Sunnah is the written report; Hadith is the lived practice","Sunnah is the normative path/practice; Hadith is the report that transmits it","They are entirely unrelated concepts in Islamic science","Sunnah is only for personal use, while Hadith is for legal use"], a:1},
+    {q:"A Hadith classified as Da’if (Weak) is generally ruled as:", o:["Definitive evidence for matters of Islamic law and creed","Unusable for establishing core matters of law or creed","Equal in authority to the Qur'an","Mandatory for all Muslims to follow in legal disputes"], a:1}
+  ]
+},
+{
+  title: "Module V: Islam and Science — A Harmonious Relationship",
+  blurb: "No conflict between the 'Book of Revelation' and the 'Book of Nature' — Tawhid implies a Unity of Knowledge.",
+  questions: [
+    {q:"In the Islamic view, the pursuit of scientific and worldly knowledge is considered:", o:["A purely secular and optional hobby","A religious obligation and act of worship","A distraction from spiritual duties","Only for those who cannot become scholars of law"], a:1},
+    {q:"Which polymath is celebrated as the \"father of algebra\" and introduced the use of zero?", o:["Ibn Sina","Al-Khwarizmi","Al-Razi","Ibn al-Haytham"], a:1},
+    {q:"Ibn al-Haytham (Alhazen) made groundbreaking contributions to optics and is considered a precursor to:", o:["Modern central banking","The modern scientific method and experimental approach","Ancient mythological studies","Abstract impressionist art"], a:1},
+    {q:"The Qur'anic description of human embryonic development is often cited by researchers as:", o:["A simple historical narrative of the 7th century","A \"scientific miracle\" matching modern medical discoveries","A mathematical equation for population growth","A purely allegorical story without physical basis"], a:1},
+    {q:"Which Muslim scholar wrote The Canon of Medicine, which served as a standard medical textbook in Europe for centuries?", o:["Al-Battani","Ibn Sina (Avicenna)","Al-Zahrawi","Abu Zayd al-Balkhi"], a:1},
+    {q:"The concept of \"Tawhid\" in relation to science suggests that:", o:["Nature is a divine entity to be worshipped","The universe is a coherent, orderly system created by a single Creator","Science and religion must remain in constant conflict","Only religious texts provide any form of useful knowledge"], a:1},
+    {q:"Scholars identify four forms of relationship between science and religion. Which one involves them working together to enhance a holistic understanding?", o:["Conflict","Independence","Dialogue/Integration","Mutual Rejection"], a:2},
+    {q:"Qur'anic references to the water cycle, rain formation, and the role of mountains relate to the field of:", o:["Educational psychology","Hydrology and Earth sciences","Macroeconomics","Comparative linguistics"], a:1},
+    {q:"The Islamic Golden Age saw a relative lull following the destruction of the House of Wisdom in Baghdad in:", o:["632 CE","101 AH","1258 CE","1947 CE"], a:2},
+    {q:"The primary purpose of the Qur’an regarding science is that it serves as a book of:", o:["Experimental formulas for laboratories","Signs (Ayat) for spiritual and rational guidance","Rigid protocols for engineering","Astronomical charts for navigation"], a:1}
+  ]
+},
+{
+  title: "Module VI: Living as a Muslim — Responsibility & Social Ethics",
+  blurb: "The Body Metaphor of Islamic brotherhood, and the digital-age duty to verify information before sharing it.",
+  questions: [
+    {q:"The Qur’an (49:6) commands that if a Fāsiq (unreliable person) brings news, a Muslim must:", o:["Share it immediately to warn others","Verify it (Tabayyun) to avoid harming people in ignorance","Ignore the news without any investigation","Purchase more information from that source"], a:1},
+    {q:"In the \"Seven steps before sharing\" anything on social media, what is the recommended action if one is in doubt?", o:["Share it with a disclaimer that it might be false","Do not share (silence is the safer course)","Delete the social media application immediately","Ask a random stranger for their opinion"], a:1},
+    {q:"The Prophet (S.A.W.) compared the mutual love and mercy of believers to:", o:["A scattered and diverse forest","A single body where every limb responds to pain","A competitive marketplace of ideas","A purely commercial and legal contract"], a:1},
+    {q:"Which of the following is considered one of the \"Six Social Evils\" that destroy the community?", o:["Engaging in ethical trade in the market","Slander and Backbiting","Pursuing a higher university education","Traveling for business and networking"], a:1},
+    {q:"What is the definition of Gheebah (Backbiting) according to the Prophetic tradition?", o:["Saying something false about someone (Slander)","Saying something true about a person behind their back that they would dislike","Praising someone in a public gathering","Offering sincere, private advice to a colleague"], a:1},
+    {q:"\"Shirk\" is characterized as the gravest evil in the Islamic framework because:", o:["It is a minor administrative mistake","It is the only sin Allah does not forgive if one dies without repentance","It is purely a financial crime","It only impacts the individual's personal mood"], a:1},
+    {q:"Drinking intoxicants is often referred to in Islamic tradition as:", o:["A neutral personal choice","The \"mother of all evils\" (Umm al-Khaba'ith)","A minor vice with no social impact","A necessary sign of high social status"], a:1},
+    {q:"According to the Farewell Sermon, what is the only criterion for superiority among human beings?", o:["Race and ancestral lineage","Accumulated wealth and property","Piety (Taqwa) and good action","Nationality and political rank"], a:2},
+    {q:"Which of the following is a \"Practical Right\" of a Muslim toward another?", o:["Exposing their personal faults to the public to \"warn\" others","Visiting them when they are sick","Boycotting them for more than a year over a small disagreement","Charging high interest on personal loans to them"], a:1},
+    {q:"Sharing unverified or sensationalist information on social media is described as:", o:["A modern professional necessity","A potential sin that can lead to regret","A recommended way to gain more followers","A neutral act with no religious consequence"], a:1}
+  ]
+},
+{
+  title: "Module VII: Foundations of the Islamic Political System",
+  blurb: "Hakimiyyah — ultimate sovereignty belongs to Allah alone — and rulers as Khalifahs bound by the Shariah.",
+  questions: [
+    {q:"The cornerstone of the Islamic political system is Tawhid, which asserts that:", o:["The Ruler is the source of all law","Ultimate authority and sovereignty belong to Allah alone","The general public can create any law they wish by majority vote","There is no need for any formal government structure"], a:1},
+    {q:"What does the concept of Khilafah (Vicegerency) imply for a political leader?", o:["They have a divine right to rule without any limits","Authority is a sacred trust (Amanah) for which they are accountable to Allah","They are the absolute owners of the state's land and resources","They are completely above the law of the land"], a:1},
+    {q:"The principle of Shura requires the head of state to:", o:["Rule by personal decree without any outside input","Consult with qualified representatives and experts on major policies","Follow the majority vote even if it violates a clear Divine injunction","Ignore the social and economic needs of the people"], a:1},
+    {q:"In the Islamic concept of sovereignty, what is the primary and higher source of law?", o:["Human-made legislation based on the popular will of the day","Divine law (Shari’ah) derived from the Qur’an and Sunnah","Current global market trends and economic shifts","The military power of the ruling party"], a:1},
+    {q:"The institution known as Ahl al-Hall wa al-Aqd refers to:", o:["A group of foreign corporate investors","Qualified scholars and leaders who elect and advise the ruler","The secret military police force","The general voting public without qualification"], a:1},
+    {q:"How does accountability differ in the Islamic political model compared to the Western model?", o:["There is no concept of accountability in the Islamic model","Rulers are accountable to Allah first, and then to the people as a religious duty","Rulers are only accountable to the people during election cycles","Rulers are only accountable to their immediate family members"], a:1},
+    {q:"The role of the Judiciary (Al-Qada) in an Islamic state is to:", o:["Follow the orders of the executive ruler blindly","Be independent and hold the government accountable to the Shari’ah","Change the Qur'an to fit modern political trends","Focus exclusively on small financial crimes"], a:1},
+    {q:"Which term refers to the \"sacred trust\" associated with holding a public or professional office?", o:["Hakimiyyah","Amanah","Risalah","Shura"], a:1},
+    {q:"In an Islamic state, the legislature's primary task is:", o:["Creating entirely new laws from nothing","Implementing and applying the higher principles of Shari'ah to new situations","Abolishing all previous religious rules and traditions","Maximizing personal profit for the members of parliament"], a:1},
+    {q:"According to the Qur'an, to whom does the \"Owner of Sovereignty\" give power?", o:["Only to the strongest military force","To whom He wills as a test and a trust","Only to those with royal or aristocratic blood","To those who ignore the rights of the poor"], a:1}
+  ]
+},
+{
+  title: "Module VIII: Foundations of Islamic Law & Jurisprudence",
+  blurb: "Shariah — the eternal divine path — versus Fiqh — the evolving human effort to understand it — and the methodology of legal derivation.",
+  questions: [
+    {q:"What is the fundamental difference between Shariah and Fiqh?", o:["There is no functional difference between the two terms","Shariah is divine and unchanging; Fiqh is the human understanding and application of it","Fiqh is divine and perfect; Shariah is a human-made historical construct","Both terms refer to laws that are subject to popular democratic vote"], a:1},
+    {q:"The science of Usul al-Fiqh is best described as:", o:["The study of historical battles and military tactics","The methodological principles used to derive specific laws from the sources","A collection of personal and subjective opinions of past scholars","The study of classical Arabic poetry and literature"], a:1},
+    {q:"Which scholar is recognized as the \"Father of Usul al-Fiqh\" for his systematization of the sources in Al-Risalah?", o:["Imam Malik","Imam al-Shafi'i","Imam Abu Hanifa","Imam Ahmad ibn Hanbal"], a:1},
+    {q:"If all qualified mujtahidin of a certain era agree on the permissibility of a new commercial contract, this agreement is legally binding under the source known as:", o:["Ijtihad","Ijma (Consensus)","Qiyas","Sunnah"], a:1},
+    {q:"A modern jurist encounters a case involving a new synthetic drug that causes intoxication. By applying the prohibition of wine to this drug because of the shared 'illah (cause), which source of law is the jurist utilizing?", o:["Al-Qur'an","Al-Sunnah","Al-Qiyas (Analogical Reasoning)","Al-Ijma"], a:2},
+    {q:"Scholarly difference of opinion (Ikhtilaf) on subsidiary issues (furu‘) is traditionally viewed in Islam as:", o:["A sign of intellectual weakness and failure","A mercy (rahmah) and a source of flexibility and richness","A primary cause for excommunication from the faith","Something that must be banned by the state to ensure unity"], a:1},
+    {q:"What is the reward for a Mujtahid (jurist) who strives his best but makes an honest mistake in his judgment?", o:["Severe punishment in the hereafter for misguiding people","A single reward for his sincere effort","A double reward for his effort","No reward at all for a wrong answer"], a:1},
+    {q:"Differences in matters of fundamental creed (‘aqidah) or clear, categorical texts (qat‘i) are classified as:", o:["Admissible differences (Ikhtilaf al-Tanawwu)","Inadmissible differences (Ikhtilaf al-Tadadd)","Recommended and encouraged differences","Purely secular differences of no concern"], a:1},
+    {q:"The primary source of Islamic law that serves as the literal, revealed word of God is:", o:["The Sunnah","The Qur'an","The Risalah","The Fiqh"], a:1},
+    {q:"The Prophet (S.A.W.) approved of Mu'adh ibn Jabal's plan to use Ijtihad if he could not find a clear ruling in:", o:["International maritime law","The Book of Allah and the Sunnah of His Messenger","The local traditions and customs of Yemen only","His own personal desires and whims"], a:1}
+  ]
+}
+];
+
+let answered = 0, correctCount = 0;
+const total = modules.reduce((s,m)=>s+m.questions.length,0);
+
+function buildQuiz(){
+  const root = document.getElementById('quizRoot');
+  root.innerHTML = '';
+  modules.forEach((mod, mi)=>{
+    const modDiv = document.createElement('div');
+    modDiv.className = 'module';
+    modDiv.innerHTML = `
+      <div class="module-header">
+        <div class="module-num">${mi+1}</div>
+        <h2 class="module-title">${mod.title}</h2>
+      </div>
+      <p class="module-blurb">${mod.blurb}</p>
+    `;
+    mod.questions.forEach((item, qi)=>{
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
+      const qid = `m${mi}q${qi}`;
+      qDiv.innerHTML = `
+        <div class="q-text"><span class="q-num">${qi+1}.</span>${item.q}</div>
+        <div class="options" id="${qid}-opts"></div>
+        <div class="feedback" id="${qid}-fb"></div>
+      `;
+      modDiv.appendChild(qDiv);
+      const optsDiv = qDiv.querySelector(`#${qid}-opts`);
+      item.o.forEach((optText, oi)=>{
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.textContent = String.fromCharCode(65+oi) + '. ' + optText;
+        btn.onclick = ()=> handleAnswer(qid, oi, item.a, optsDiv, btn);
+        optsDiv.appendChild(btn);
+      });
+    });
+    root.appendChild(modDiv);
+  });
+}
+
+function handleAnswer(qid, chosen, correctIdx, optsDiv, btnClicked){
+  if(optsDiv.dataset.answered) return;
+  optsDiv.dataset.answered = "true";
+  const buttons = optsDiv.querySelectorAll('.option');
+  buttons.forEach((b, i)=>{
+    b.disabled = true;
+    if(i === correctIdx) b.classList.add('correct');
+    else if(i === chosen) b.classList.add('wrong');
+  });
+  const fb = optsDiv.parentElement.querySelector('.feedback');
+  if(chosen === correctIdx){
+    fb.textContent = 'Correct.';
+    correctCount++;
+  } else {
+    fb.textContent = 'Not quite — correct answer highlighted above.';
+  }
+  answered++;
+  updateProgress();
+}
+
+function updateProgress(){
+  document.getElementById('scoreText').textContent = `${answered} / ${total} answered · ${correctCount} correct`;
+  document.getElementById('progressFill').style.width = (answered/total*100) + '%';
+}
+
+function resetQuiz(){
+  answered = 0; correctCount = 0;
+  buildQuiz();
+  updateProgress();
+}
+
+buildQuiz();
+updateProgress();
+</script>
+
+</body>
+</html>
